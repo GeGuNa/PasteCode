@@ -1,12 +1,20 @@
 # To Run Our Web App
 
-` cd backend  then run`
+# Open your terminal
+
+
+` cd backend  `
+
+# Then run
+
 `php -S localhost:8000`
 
 
 ` Make database  (Mysql/Mariadb)  upload db.sql file there`
 
-# then go and do  cd pastebin-client
+# Then do  
+
+`cd pastebin-client`
 
 `npx create-react-app pastebin`
 `cd pastebin`
