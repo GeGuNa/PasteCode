@@ -1,0 +1,11 @@
+<?php
+require 'db.php';
+
+$id = (int)$_GET['id'] ?? 0;
+$sql = "SELECT * FROM pastes WHERE id = ?";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$id]);
+$paste = $stmt->fetch();
+
+echo json_encode($paste);
+?>

@@ -1,0 +1,37 @@
+<?php
+require 'config.php';
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["status" => "error", "message" => "Method not allowed"]);
+    exit;
+}
+
+$input = json_decode(file_get_contents("php://input"), true);
+
+if (empty($input['content'])) {
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "Content is required"]);
+    exit;
+}
+
+$title = sanitize($input['title'] ?? 'Untitled');
+$content = $input['content'];
+$language = sanitize($input['language'] ?? 'text');
+$visibility = sanitize($input['visibility'] ?? 'public');
+$user_id = isLoggedIn() ? $_SESSION['user_id'] : null;
+
+try {
+    $stmt = $pdo->prepare("INSERT INTO pastes (user_id, title, content, language, visibility) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$user_id, $title, $content, $language, $visibility]);
+    
+    echo json_encode([
+        "status" => "success", 
+        "message" => "Paste created successfully",
+        "id" => $pdo->lastInsertId()
+    ]);
+} catch(PDOException $e) {
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => "Failed to create paste"]);
+}
+?>
