@@ -14,7 +14,7 @@
 
 # Then do  
 
-`cd pastebin-client`
+`cd pastebin`
 
 `npx create-react-app pastebin`
 `cd pastebin`
